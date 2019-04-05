@@ -4,4 +4,16 @@ body {
   @media screen and (min-width: $screen-md-min) {
     max-width: $screen-xs-max;
   }
+
+  @media screen and (min-width: $screen-lg-min) {
+    max-width: $screen-md-max;
+  }
+}
+
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
