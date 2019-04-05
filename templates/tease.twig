@@ -7,7 +7,24 @@
 		{% endif %}
 
 		<div class="media__body">
-			<h2 class="mrgt0 mrgb--"><a href="{{post.link}}">{{post.title}}</a></h2>
+			{% if is_home and post.categories is not empty %}
+				<p class="tease__categories">
+					[
+					{% for category in post.categories %}
+						<a href="{{get_category_link(category.id)}}">
+							{{category}}
+						</a>
+					{% endfor %}
+					]
+				</p>
+			{% endif %}
+
+			<h2 class="mrgt0 mrgb--">
+				<a href="{{post.link}}" title="{{post.link}}">
+					{{post.title}}
+				</a>
+			</h2>
+
 			<p class="mrgb0">{{post.preview}}</p>
 		</div>
 	{% endblock %}

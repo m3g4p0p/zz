@@ -9,17 +9,7 @@
 		<a class="sr-only" href="#content">{{ _e( 'Skip to content') }}</a>
 		<header class="box box--default">
 			{% block header %}
-				<div class="banner" role="banner">
-					<h1 class="text-right">
-						<a href="{{site.url}}" rel="home" class="banner__link">
-							<span>{{site_name}}</span>
-							{% if site_name_repeat %}
-								<span class="banner__repeat">{{site_name_repeat}}</span>
-							{% endif %}
-							<sup class="banner__sup">2</sup>
-						</a>
-					</h1>
-				</div>
+				{% include "banner.twig" %}
 
 				<nav id="nav-main" class="mrgt+" role="navigation">
 					{% include "menu.twig" with {'menu': menu.get_items} %}

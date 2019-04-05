@@ -2,7 +2,7 @@
 
 - [ ] Banner
 - [ ] Contact form
-- [ ] Category sort on home page
+- [x] ~~Category sort on home page~~ Display categories
 - [ ] Mobile menu
 - [ ] Date field
 - [ ] Footer

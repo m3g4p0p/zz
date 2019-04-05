@@ -2980,8 +2980,15 @@ a {
     text-decoration: underline; }
 
 .banner {
+  display: flex;
+  justify-content: center;
   font-variant-caps: small-caps;
   font-size: 1.5rem; }
+  .banner__logo {
+    width: 4em;
+    height: auto; }
+  .banner__title {
+    align-self: flex-end; }
   .banner__repeat, .banner__fixed {
     display: none; }
   .banner__link:hover {
@@ -2989,6 +2996,8 @@ a {
   .banner__link > span {
     text-decoration: underline; }
   @media screen and (min-width: 40.0625em) {
+    .banner__title {
+      margin-left: auto; }
     .banner__repeat {
       display: inline; }
     .banner__repeat + .banner__sup {
@@ -2999,3 +3008,14 @@ a {
   font-variant-caps: small-caps; }
   .menu__link:hover {
     text-decoration: none; }
+
+.tease__categories {
+  display: inline-block;
+  font-size: 0.75rem; }
+  .tease__categories > a {
+    color: black; }
+    .tease__categories > a:not(:last-child)::after {
+      content: ', '; }
+
+.tease__categories:hover + .tease__title {
+  text-decoration: none; }

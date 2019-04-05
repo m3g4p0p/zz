@@ -21,7 +21,10 @@ if ( ! class_exists( 'Timber' ) ) {
 	return;
 }
 
-wp_enqueue_style('style', get_template_directory_uri() . '/static/style.css');
+add_action('wp_enqueue_scripts', function() {
+	wp_enqueue_style('style', get_template_directory_uri() . '/static/style.css');
+	wp_enqueue_script('bundle', get_template_directory_uri() . '/static/bundle.js', null, null, true);
+});
 
 add_action('init', function() {
 	register_post_type('zz-article', [
@@ -158,6 +161,7 @@ class StarterSite extends Timber\Site {
 	public function add_to_twig( $twig ) {
 		$twig->addExtension( new Twig_Extension_StringLoader() );
 		$twig->addFilter( new Twig_SimpleFilter( 'myfoo', array( $this, 'myfoo' ) ) );
+		$twig->addFunction(new Timber\Twig_Function('get_category_link', 'get_category_link'));
 		return $twig;
 	}
 

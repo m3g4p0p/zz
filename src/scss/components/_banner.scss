@@ -1,6 +1,17 @@
 .banner {
+  display: flex;
+  justify-content: center;
   font-variant-caps: small-caps;
   font-size: 1.5rem;
+
+  &__logo {
+    width: 4em;
+    height: auto;
+  }
+
+  &__title {
+    align-self: flex-end;
+  }
 
   &__repeat,
   &__fixed {
@@ -18,6 +29,10 @@
   }
 
   @media screen and (min-width: $screen-sm-min) {
+    &__title {
+      margin-left: auto;
+    }
+
     &__repeat {
       display: inline;
     }

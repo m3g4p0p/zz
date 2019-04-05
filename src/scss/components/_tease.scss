@@ -1,0 +1,18 @@
+.tease {
+  &__categories {
+    display: inline-block;
+    font-size: $font-size-small;
+
+    > a {
+      color: black;
+
+      &:not(:last-child)::after {
+        content: ', ';
+      }
+    }
+  }
+
+  &__categories:hover + &__title {
+    text-decoration: none;
+  }
+}
