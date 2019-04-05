@@ -1,0 +1,46 @@
+.banner {
+  font-variant-caps: small-caps;
+  font-size: 1.5rem;
+
+  &__repeat,
+  &__fixed {
+    display: none;
+  }
+
+  &__link {
+    > span {
+      text-decoration: underline;
+    }
+
+    &,
+    &:hover > span {
+      text-decoration: none;
+    }
+  }
+
+  @media screen and (min-width: $screen-sm-min) {
+    &__repeat {
+      display: inline;
+    }
+
+    &__repeat + &__sup {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: $screen-md-min) {
+    font-size: 2rem;
+
+    &__repeat {
+      display: none;
+    }
+
+    &__fixed {
+      display: block;
+      position: fixed;
+      right: 0; // calc(#{$screen-sm-max} + (100vw - #{$screen-sm-max}) / 2);
+      transform: rotate(-90deg);
+      color: $brand-color;
+    }
+  }
+}

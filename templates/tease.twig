@@ -1,0 +1,14 @@
+<article class="tease tease-{{post.post_type}} media media--responsive" id="tease-{{post.ID}}">
+	{% block content %}
+		{% if post.get_thumbnail %}
+			<div class="media__left">
+				<img src="{{post.thumbnail.src}}" />
+			</div>
+		{% endif %}
+
+		<div class="media__body">
+			<h2 class="mrgt0 mrgb--"><a href="{{post.link}}">{{post.title}}</a></h2>
+			<p class="mrgb0">{{post.preview}}</p>
+		</div>
+	{% endblock %}
+</article>

@@ -1,0 +1,17 @@
+{
+  "name": "zeitungzeitung",
+  "version": "1.0.0",
+  "scripts": {
+    "css": "node-sass ./src/scss/main.scss ./static/style.css",
+    "css:dev": "yarn css && yarn css --watch"
+  },
+  "devDependencies": {
+    "node-sass": "^4.11.0",
+    "standard": "^12.0.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  },
+  "dependencies": {
+    "kanbasu": "^2.5.0"
+  }
+}
