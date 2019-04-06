@@ -5,7 +5,11 @@
 		<img src="{{ post.thumbnail.src|resize(1200, 300) }}">
 		<section>
 			<h1>{{ post.title }}</h1>
-			<a href="{{ post.link }}">{{ _e('edit') }}</a>
+
+			{% if current_user_can('edit_posts') %}
+				<a href="{{ post.link }}">{{ _e('edit') }}</a>
+			{% endif %}
+
 			<p>
 				<span>By</span>
 				<a href="{{post.author.path}}"> {{ post.author.name }} </a>

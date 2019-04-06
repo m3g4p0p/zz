@@ -161,10 +161,15 @@ class StarterSite extends Timber\Site {
 	public function add_to_twig( $twig ) {
 		$twig->addExtension( new Twig_Extension_StringLoader() );
 		$twig->addFilter( new Twig_SimpleFilter( 'myfoo', array( $this, 'myfoo' ) ) );
-		$twig->addFunction(new Timber\Twig_Function('get_category_link', 'get_category_link'));
+		$this->add_wp_functions($twig, ['get_category_link', 'current_user_can']);
 		return $twig;
 	}
 
+	private function add_wp_functions($twig, $functions) {
+		foreach ($functions as $function) {
+			$twig->addFunction(new Timber\Twig_Function($function, $function));
+		}
+	}
 }
 
 new StarterSite();
