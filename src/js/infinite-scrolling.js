@@ -14,8 +14,11 @@ export class InfiniteScrolling {
   }
 
   init () {
-    const sentinel = this.container.appendChild(
-      document.createElement('div')
+    const { parentNode, nextSibling } = this.container
+
+    const sentinel = parentNode.insertBefore(
+      document.createElement('div'),
+      nextSibling
     )
 
     new IntersectionObserver(entries => {
