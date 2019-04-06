@@ -2966,7 +2966,10 @@ label {
  * Actual style
  */
 body {
-  margin: auto; }
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  min-height: 100vh; }
   @media screen and (min-width: 48.0625em) {
     body {
       max-width: 40em; } }
@@ -3002,6 +3005,9 @@ a {
       display: inline; }
     .banner__repeat + .banner__sup {
       display: none; } }
+
+.footer {
+  margin-top: auto; }
 
 .menu {
   font-size: 1.2rem;

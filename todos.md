@@ -6,3 +6,5 @@
 - [ ] Mobile menu
 - [ ] Date field
 - [ ] Footer
+- [ ] Scroll-to-top
+- [ ] Lazy loading

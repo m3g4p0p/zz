@@ -1,5 +1,8 @@
 body {
+  display: flex;
+  flex-direction: column;
   margin: auto;
+  min-height: 100vh;
 
   @media screen and (min-width: $screen-md-min) {
     max-width: $screen-xs-max;
