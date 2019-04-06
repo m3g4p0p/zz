@@ -58,6 +58,8 @@ Timber::$autoescape = false;
  * You can move this to its own file and include here via php's include("MySite.php")
  */
 class StarterSite extends Timber\Site {
+	private $scripts = [];
+
 	/** Add timber support. */
 	public function __construct() {
 		add_action( 'after_setup_theme', array( $this, 'theme_supports' ) );
@@ -154,6 +156,18 @@ class StarterSite extends Timber\Site {
 		return $text;
 	}
 
+	public function enqueue_script($src) {
+		if (!in_array($src, $this->scripts)) {
+			$this->scripts[] = $src;
+		}
+	}
+
+	public function get_scripts() {
+		return array_reduce($this->scripts, function($result, $src) {
+			return $result . '<script src="' . get_template_directory_uri() . '/static/js/' . $src . '.js"></script>';
+		}, '');
+	}
+
 	/** This is where you can add your own functions to twig.
 	 *
 	 * @param string $twig get extension.
@@ -161,6 +175,8 @@ class StarterSite extends Timber\Site {
 	public function add_to_twig( $twig ) {
 		$twig->addExtension( new Twig_Extension_StringLoader() );
 		$twig->addFilter( new Twig_SimpleFilter( 'myfoo', array( $this, 'myfoo' ) ) );
+		$twig->addFunction(new Timber\Twig_Function('enqueue_script', [$this, 'enqueue_script']));
+		$twig->addFunction(new Timber\Twig_Function('get_scripts', [$this, 'get_scripts']));
 		$this->add_wp_functions($twig, ['get_category_link', 'current_user_can']);
 		return $twig;
 	}
