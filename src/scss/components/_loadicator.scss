@@ -1,0 +1,22 @@
+.loadicator {
+  display: none;
+
+  &--active {
+    display: list-item;
+  }
+
+  &__text {
+    color: $brand-color-light;
+    animation: loading .5s infinite alternate ease;
+  }
+
+  @keyframes loading {
+    from {
+      opacity: 1;
+    }
+
+    to {
+      opacity: .8;
+    }
+  }
+}

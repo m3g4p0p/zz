@@ -2,14 +2,14 @@
 	{% block content %}
 		<div class="media__body">
 			{% if is_home and (is_template or post.categories is not empty) %}
-				<p class="tease__categories js-tease-categories">
+				<p class="tease__categories js-tease-categories mrgt0">
 					{% for category in post.categories %}
 						<a href="{{get_category_link(category.id)}}">{{category}}</a>
 					{% endfor %}
 				</p>
 			{% endif %}
 
-			<h2 class="mrgt0 mrgb--">
+			<h2 class="mrgt0">
 				<a href="{{post.link}}" class="js-tease-title" title="{{post.link}}">
 					{{post.title}}
 				</a>

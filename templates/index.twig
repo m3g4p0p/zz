@@ -7,7 +7,8 @@
 				{% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
 			</li>
 		{% endfor %}
+		{% include "loadicator.twig" with { prefix: 'tease' } %}
 	</ul>
 
-	{% include "partial/infinite-scrolling.twig" %}
+	{% include "partial/infinite-scrolling.twig" with { prefix: 'tease' } %}
 {% endblock %}

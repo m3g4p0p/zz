@@ -1,3 +1,10 @@
-<div class="box box--default mrgt+">
-  Copyright {{"now"|date('Y')}}
-</div>
+<footer class="footer">
+  <div class="footer__wrapper box box--default mrgt+">
+    <p class="footer__text">
+      Copyright {{"now"|date('Y')}}
+    </p>
+
+    <a href="#" class="footer__scroll-to-top" id="scroll-to-top">Zum Anfang</a>
+  </div>
+</footer>
+{{enqueue_script('scroll-to-top')}}

@@ -1,12 +1,16 @@
 import wp from './wp'
-import { tap, removeElement, getValue } from './util'
+import { tap, removeElement, getValue, isIntersecting } from './util'
 
-const isIntersecting = ({ isIntersecting }) => isIntersecting
-
+/**
+ * Handles infinite scrolling
+ *
+ * @todo Abstract away tease specific logic
+ */
 export class InfiniteScrolling {
   constructor () {
     this.template = document.getElementById('tease-template')
     this.container = document.getElementById('tease-container')
+    this.loadicator = document.getElementById('tease-loadicator')
     this.pageSize = this.container.children.length
     this.currentPage = 1
     this.totalPages = Infinity
@@ -26,6 +30,11 @@ export class InfiniteScrolling {
         this.loadPosts(observer)
       }
     }).observe(sentinel)
+  }
+
+  toggleLoading (isLoading) {
+    this.isLoading = isLoading
+    this.loadicator.classList.toggle('loadicator--active', isLoading)
   }
 
   populateCategories (tease, post) {
@@ -54,7 +63,7 @@ export class InfiniteScrolling {
   setThumbnail (tease, post) {
     const thumbnail = tease.querySelector('.js-tease-thumbnail')
 
-    const featured = getValue(
+    const thumbnailSrc = getValue(
       '_embedded',
       'wp:featuredmedia',
       0,
@@ -64,25 +73,29 @@ export class InfiniteScrolling {
       'source_url'
     )(post)
 
-    if (!featured) {
+    if (!thumbnailSrc) {
       return removeElement(thumbnail)
     }
 
-    thumbnail.querySelector('img').src = featured
+    thumbnail.querySelector('img').src = thumbnailSrc
   }
 
   appendPost (post) {
     const tease = document.importNode(this.template, true).content
     const item = document.createElement('li')
+    const title = tease.querySelector('.js-tease-title')
+    const excerpt = tease.querySelector('.js-tease-excerpt')
 
     this.populateCategories(tease, post)
     this.setThumbnail(tease, post)
 
-    tease.querySelector('.js-tease-title').textContent = post.title.rendered
-    tease.querySelector('.js-tease-excerpt').innerHTML = post.excerpt.rendered
+    title.textContent = post.title.rendered
+    title.href = post.link
+    /** @todo check if sanitization is necessary */
+    excerpt.innerHTML = post.excerpt.rendered
 
     item.appendChild(tease)
-    this.container.appendChild(item)
+    this.container.insertBefore(item, this.loadicator)
   }
 
   loadPosts (observer) {
@@ -94,7 +107,7 @@ export class InfiniteScrolling {
       return observer.disconnect()
     }
 
-    this.isLoading = true
+    this.toggleLoading(true)
     this.currentPage++
 
     wp
@@ -105,10 +118,9 @@ export class InfiniteScrolling {
       .then(tap(({ _paging }) => {
         this.totalPages = _paging.totalPages
       }))
+      .then(posts => new Promise(resolve => setTimeout(resolve, 1000, posts)))
       .then(posts => posts.forEach(post => this.appendPost(post)))
-      .finally(() => {
-        this.isLoading = false
-      })
+      .finally(() => this.toggleLoading(false))
   }
 }
 
