@@ -2,9 +2,9 @@
   "name": "zeitungzeitung",
   "version": "1.0.0",
   "scripts": {
-    "css": "node-sass ./src/scss/main.scss ./static/style.css",
+    "css": "node-sass ./src/scss/main.scss ./static/css/style.css",
     "css:dev": "yarn css && yarn css --watch",
-    "js": "webpack ./src/js/index.js -o ./static/bundle.js",
+    "js": "webpack ./src/js/index.js -o ./static/js/bundle.js",
     "js:dev": "yarn js --mode=development --watch",
     "js:prod": "yarn js --mode=production",
     "dev": "concurrently 'yarn css:dev' 'yarn js:dev'",
@@ -18,6 +18,12 @@
     "webpack-cli": "^3.3.0"
   },
   "dependencies": {
-    "kanbasu": "^2.5.0"
+    "kanbasu": "^2.5.0",
+    "wpapi": "^1.2.1"
+  },
+  "standard": {
+    "env": {
+      "browser": true
+    }
   }
 }

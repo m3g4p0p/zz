@@ -1,31 +1,27 @@
-<article class="tease tease-{{post.post_type}} media media--responsive" id="tease-{{post.ID}}">
+<article class="tease tease-{{post.post_type}} media media--responsive" data-id="{{post.ID}}">
 	{% block content %}
-		{% if post.get_thumbnail %}
-			<div class="media__left">
-				<img src="{{post.thumbnail.src}}" />
-			</div>
-		{% endif %}
-
 		<div class="media__body">
-			{% if is_home and post.categories is not empty %}
-				<p class="tease__categories">
-					[
+			{% if is_home and (is_template or post.categories is not empty) %}
+				<p class="tease__categories js-tease-categories">
 					{% for category in post.categories %}
-						<a href="{{get_category_link(category.id)}}">
-							{{category}}
-						</a>
+						<a href="{{get_category_link(category.id)}}">{{category}}</a>
 					{% endfor %}
-					]
 				</p>
 			{% endif %}
 
 			<h2 class="mrgt0 mrgb--">
-				<a href="{{post.link}}" title="{{post.link}}">
+				<a href="{{post.link}}" class="js-tease-title" title="{{post.link}}">
 					{{post.title}}
 				</a>
 			</h2>
 
-			<p class="mrgb0">{{post.preview}}</p>
+			<p class="mrgb0 js-tease-excerpt">{{post.preview.read_more(false)}}</p>
 		</div>
+
+		{% if is_template or post.get_thumbnail %}
+			<div class="media__left js-tease-thumbnail">
+				<img src="{{post.thumbnail.src('thumbnail')}}" />
+			</div>
+		{% endif %}
 	{% endblock %}
 </article>

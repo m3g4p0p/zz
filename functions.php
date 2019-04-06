@@ -22,8 +22,8 @@ if ( ! class_exists( 'Timber' ) ) {
 }
 
 add_action('wp_enqueue_scripts', function() {
-	wp_enqueue_style('style', get_template_directory_uri() . '/static/style.css');
-	wp_enqueue_script('bundle', get_template_directory_uri() . '/static/bundle.js', null, null, true);
+	wp_enqueue_style('style', get_template_directory_uri() . '/static/css/style.css');
+	wp_enqueue_script('bundle', get_template_directory_uri() . '/static/js/bundle.js', null, null, true);
 });
 
 add_action('init', function() {

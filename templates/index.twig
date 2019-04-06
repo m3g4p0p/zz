@@ -1,7 +1,7 @@
 {% extends "base.twig" %}
 
 {% block content %}
-	<ul class="list-stacked list-stacked--huge list-stacked--divided">
+	<ul id="tease-container" class="list-stacked list-stacked--huge list-stacked--divided">
 		{% for post in posts %}
 			<li>
 				{% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
@@ -9,5 +9,5 @@
 		{% endfor %}
 	</ul>
 
-	{% include 'partial/pagination.twig' with { pagination: posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } %}
+	{% include "partial/infinite-scrolling.twig" %}
 {% endblock %}

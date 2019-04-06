@@ -3,16 +3,31 @@
     display: inline-block;
     font-size: $font-size-small;
 
+    &::before {
+      content: '[';
+    }
+
+    &::after {
+      content: ']';
+    }
+
     > a {
+      display: inline-block;
       color: black;
+      margin-left: .5em;
+
+      &:last-child {
+        margin-right: .5em;
+      }
 
       &:not(:last-child)::after {
-        content: ', ';
+        content: ',';
+        display: inline-block;
+      }
+
+      &:hover::after {
+        text-decoration: none;
       }
     }
-  }
-
-  &__categories:hover + &__title {
-    text-decoration: none;
   }
 }

@@ -1,0 +1,6 @@
+{% if posts.pagination.pages is not empty %}
+  <template id="tease-template">
+    {% include "tease.twig" with { is_template: true } %}
+  </template>
+  <div id="tease-sentinel"></div>
+{% endif %}

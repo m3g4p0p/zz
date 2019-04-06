@@ -1,9 +1,3 @@
-document.querySelectorAll('.tease').forEach(tease => {
-  const link = tease.querySelector('a')
+import { initInfiniteScrolling } from './infinite-scrolling'
 
-  tease.addEventListener('click', ({ target }) => {
-    if (target.tagName !== 'A') {
-      link.click()
-    }
-  })
-})
+initInfiniteScrolling('tease')
