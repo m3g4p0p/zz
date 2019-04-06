@@ -21,9 +21,9 @@ export class InfiniteScrolling {
       nextSibling
     )
 
-    new IntersectionObserver(entries => {
+    new IntersectionObserver((entries, observer) => {
       if (entries.some(isIntersecting)) {
-        this.loadPosts()
+        this.loadPosts(observer)
       }
     }).observe(sentinel)
   }
@@ -85,9 +85,13 @@ export class InfiniteScrolling {
     this.container.appendChild(item)
   }
 
-  loadPosts () {
-    if (this.isLoading || this.currentPage >= this.totalPages) {
+  loadPosts (observer) {
+    if (this.isLoading) {
       return
+    }
+
+    if (this.currentPage >= this.totalPages) {
+      return observer.disconnect()
     }
 
     this.isLoading = true

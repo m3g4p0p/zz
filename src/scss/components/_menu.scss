@@ -2,8 +2,14 @@
   font-size: 1.2rem;
   font-variant-caps: small-caps;
 
-  &__link:hover {
-    text-decoration: none;
+  &__link {
+    color: $brand-color-dark;
+    transition: color .1s ease;
+
+    &:hover {
+      color: $brand-color-light;
+      text-decoration: none;
+    }
   }
 }
 

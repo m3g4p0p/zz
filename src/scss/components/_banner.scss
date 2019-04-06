@@ -19,6 +19,8 @@
   }
 
   &__link {
+    color: $brand-color-dark;
+
     &:hover {
       text-decoration: none;
     }
