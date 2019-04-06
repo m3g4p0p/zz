@@ -1,3 +1,1 @@
-import { initInfiniteScrolling } from './infinite-scrolling'
-
-initInfiniteScrolling('tease')
+// Do nothing

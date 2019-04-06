@@ -1,23 +1,28 @@
 import wp from './wp'
-import { toObject, tap, removeElement, getValue } from './util'
+import { tap, removeElement, getValue } from './util'
 
-const ELEMENT_IDS = ['template', 'sentinel', 'container']
 const isIntersecting = ({ isIntersecting }) => isIntersecting
 
 export class InfiniteScrolling {
-  constructor ({ template, sentinel, container }) {
+  constructor () {
+    this.template = document.getElementById('tease-template')
+    this.container = document.getElementById('tease-container')
+    this.pageSize = this.container.children.length
+    this.currentPage = 1
+    this.totalPages = Infinity
+    this.isLoading = false
+  }
+
+  init () {
+    const sentinel = this.container.appendChild(
+      document.createElement('div')
+    )
+
     new IntersectionObserver(entries => {
       if (entries.some(isIntersecting)) {
         this.loadPosts()
       }
     }).observe(sentinel)
-
-    this.template = template
-    this.container = container
-    this.pageSize = container.children.length
-    this.currentPage = 1
-    this.totalPages = Infinity
-    this.isLoading = false
   }
 
   populateCategories (tease, post) {
@@ -100,12 +105,4 @@ export class InfiniteScrolling {
   }
 }
 
-export const initInfiniteScrolling = prefix => {
-  const elements = ELEMENT_IDS.reduce((result, current) => Object.assign(result, {
-    ...toObject(current, document.getElementById(`${prefix}-${current}`))
-  }), {})
-
-  return (
-    Object.keys(elements).length === ELEMENT_IDS.length
-  ) && new InfiniteScrolling(elements)
-}
+new InfiniteScrolling().init()

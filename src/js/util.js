@@ -1,5 +1,3 @@
-export const toObject = (prop, value) => value && { [prop]: value }
-
 export const tap = callback => value => {
   callback(value)
   return value

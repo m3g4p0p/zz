@@ -8,7 +8,7 @@ const path = {
 
 module.exports = ({ production = false } = {}) => ({
   entry: {
-    bundle: join(path.src, 'index.js')
+    'infinite-scrolling': join(path.src, 'infinite-scrolling.js')
   },
   plugins: [
     new CleanWebpackPlugin()
@@ -28,6 +28,7 @@ module.exports = ({ production = false } = {}) => ({
   mode: production ? 'production' : 'development',
   devtool: production ? false : 'inline-source-map',
   output: {
-    filename: '[name].js'
+    filename: '[name].js',
+    path: path.dist
   }
 })
