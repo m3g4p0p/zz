@@ -1,24 +1,17 @@
-import { isIntersecting, isValueEqual } from './util'
+import { isIntersecting } from './util'
 
 export class ScrollToTop {
   constructor () {
     this.link = document.getElementById('scroll-to-top')
-    this.header = document.getElementById('header')
-  }
-
-  filterEntries (entries, target) {
-    return entries.filter(isValueEqual('target', target))
   }
 
   init () {
-    const observer = new IntersectionObserver(entries => {
+    new IntersectionObserver(entries => {
       this.toggleActive(
-        this.filterEntries(entries, this.link).every(isIntersecting)
+        entries.some(isIntersecting)
       )
-    })
+    }).observe(this.link)
 
-    observer.observe(this.header)
-    observer.observe(this.link)
     this.link.addEventListener('click', this)
   }
 
