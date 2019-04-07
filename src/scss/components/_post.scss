@@ -1,0 +1,5 @@
+.post {
+  &__image + section {
+    margin-top: $spacing-unit-large;
+  }
+}

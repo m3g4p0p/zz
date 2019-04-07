@@ -1,12 +1,17 @@
 {% extends "base.twig" %}
 
 {% block content %}
-	<article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
+	<article class="post post-type-{{ post.post_type }}" id="post-{{ post.ID }}">
+		{% if post.thumbnail %}
+			<img class="img-responsive post__image" src="{{ post.thumbnail.src|resize(1200, 300) }}">
+		{% endif %}
+
 		<section>
-			<h1>{{post.title}}</h1>
-			<div>
-				{{post.content}}
-			</div>
+			<h1>{{ post.title }}</h1>
+
+			{% block author %}{% endblock %}
+
+			<div>{{post.content}}</div>
 		</section>
 	</article>
 {% endblock %}

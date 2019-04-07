@@ -27,3 +27,7 @@ h2,
 h3 {
   @include font-newspaper;
 }
+
+h1 + * {
+  margin-top: $spacing-unit-large;
+}
