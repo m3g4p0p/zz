@@ -8,7 +8,8 @@ export class ScrollToTop {
   init () {
     new IntersectionObserver(entries => {
       this.toggleActive(
-        entries.some(isIntersecting)
+        entries.some(isIntersecting) &&
+        window.innerHeight < document.body.clientHeight
       )
     }).observe(this.link)
 
