@@ -1,5 +1,5 @@
 import wp from './wp'
-import { tap, removeElement, getValue, isIntersecting } from './util'
+import { tap, removeElement, getValue, isIntersecting, sanitize } from './util'
 
 /**
  * Handles infinite scrolling
@@ -89,10 +89,9 @@ export class InfiniteScrolling {
     this.populateCategories(tease, post)
     this.setThumbnail(tease, post)
 
-    title.textContent = post.title.rendered
     title.href = post.link
-    /** @todo check if sanitization is necessary */
-    excerpt.innerHTML = post.excerpt.rendered
+    title.textContent = sanitize(post.title.rendered)
+    excerpt.innerHTML = sanitize(post.excerpt.rendered)
 
     item.appendChild(tease)
     this.container.insertBefore(item, this.loadicator)

@@ -18,3 +18,9 @@ export const pipe = fns => value => fns.reduce((result, current) => current(resu
 export const isValueEqual = (prop, value) => object => object[prop] === value
 
 export const isValueSet = prop => object => object[prop] !== undefined
+
+export const sanitize = html => {
+  const element = document.createElement('div')
+  element.innerHTML = html
+  return element.textContent
+}

@@ -3,6 +3,8 @@
   font-variant-caps: small-caps;
 
   &__link {
+    @include font-newspaper;
+
     color: $brand-color-dark;
     transition: color .1s ease;
 

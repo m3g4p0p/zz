@@ -21,3 +21,8 @@ a {
     text-decoration: underline;
   }
 }
+
+h1,
+h2 {
+  @include font-newspaper;
+}
