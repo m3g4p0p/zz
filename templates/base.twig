@@ -1,14 +1,15 @@
 <!doctype html>
 <html>
+	{{enqueue_script('main-bundle')}}
 	{% include 'html-header.twig' %}
 
 	<body class="{{body_class}} pdg" data-template="base.twig">
 		<a class="sr-only" href="#content">{{ _e( 'Skip to content') }}</a>
-		<header class="box box--default">
+		<header class="box box--default pdgb0">
 			{% block header %}
 				{% include "banner.twig" %}
 
-				<nav id="nav-main" class="mrgt+" role="navigation">
+				<nav role="navigation">
 					{% include "menu.twig" with {'menu': menu.get_items} %}
 				</nav>
 			{% endblock %}
@@ -16,11 +17,13 @@
 
 		<section id="content" role="main" class="mrgt+">
 			{% if title %}<h1>{{title}}</h1>{% endif %}
-			<div>
+
+			<div class="content">
 				{% block content %}
 					Hier gibt es nichts zu sehen...
 				{% endblock %}
 			</div>
+
 			{% if sidebar %}
 				<aside class="{{sidebar_class}}">
 					{{sidebar}}

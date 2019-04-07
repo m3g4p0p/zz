@@ -1,10 +1,14 @@
 {% if menu %}
-	<ul class="menu list-inline list-inline--justified">
-	{% for item in menu %}
-		<li class="{{ item.classes | join(' ') }}">
-			<a target="{{ item.target }}" href="{{ item.link }}" class="text-bold pdgv menu__link">{{ item.title }}</a>
-			{% include "menu.twig" with {'menu': item.children} %}
+	<ul id="menu" class="menu menu--collapsed">
+		<li class="menu__home">
+			<a href="{{ site.url }}" rel="home" class="menu__link">{{ site.title }}</a>
 		</li>
-	{% endfor %}
+
+		{% for item in menu %}
+			<li class="{{ item.classes | join(' ') }}">
+				<a target="{{ item.target }}" href="{{ item.link }}" class="menu__link">{{ item.title }}</a>
+				{% include "menu.twig" with {'menu': item.children} %}
+			</li>
+		{% endfor %}
 	</ul>
 {% endif %}

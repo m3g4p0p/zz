@@ -8,8 +8,8 @@ const path = {
 
 module.exports = ({ production = false } = {}) => ({
   entry: {
-    'infinite-scrolling': join(path.src, 'infinite-scrolling.js'),
-    'scroll-to-top': join(path.src, 'scroll-to-top.js')
+    'main-bundle': join(path.src, 'main.js'),
+    'infinite-scrolling': join(path.src, 'infinite-scrolling.js')
   },
   plugins: [
     new CleanWebpackPlugin()

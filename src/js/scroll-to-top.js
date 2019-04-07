@@ -28,5 +28,3 @@ export class ScrollToTop {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
-
-new ScrollToTop().init()
