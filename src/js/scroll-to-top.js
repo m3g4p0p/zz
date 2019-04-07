@@ -11,6 +11,8 @@ export class ScrollToTop {
         entries.some(isIntersecting) &&
         window.innerHeight < document.body.clientHeight
       )
+    }, {
+      threshold: 1
     }).observe(this.link)
 
     this.link.addEventListener('click', this)
@@ -22,6 +24,7 @@ export class ScrollToTop {
 
   handleEvent (event) {
     event.preventDefault()
+    window.location.hash = event.target.hash
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
