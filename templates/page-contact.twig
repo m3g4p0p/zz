@@ -1,0 +1,9 @@
+{% extends "page.twig" %}
+
+{% block content %}
+  {{parent()}}
+
+  {% if post.comment_status == 'open' %}
+    {% include "contact-form.twig" %}
+  {% endif %}
+{% endblock %}
