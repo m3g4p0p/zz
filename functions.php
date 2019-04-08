@@ -63,24 +63,35 @@ class FormData {
 		return $this->entries;
 	}
 
+	public function hasError() {
+		return isset($this->entries['error']) && (bool)$this->entries['error'];
+	}
+
 	public function apply($key, $callable) {
-		if ((
-			isset($this->entries['error'])
-			&& $this->entries['error']
-		) || !(
+		if ($this->hasError() || !(
 			isset($this->entries[$key])
 			&& $this->entries[$key]
 		)) {
 			return $this;
 		}
 
-		$error = $callable($this->entries);
+		try {
+			$error = $callable($this->entries);
 
-		if (is_wp_error($error) || $error instanceof Error) {
+			if (is_wp_error($error)) {
+				throw new Exception($error->get_error_message());
+			}
+		} catch (Exception $error) {
 			$this->entries['error'] = $error;
 		}
 
 		return $this;
+	}
+
+	public function catch($callable) {
+		if ($this->hasError()) {
+			$callable($this->entries['error']);
+		}
 	}
 
 	private function getFilteredFiles() {
@@ -237,14 +248,31 @@ class StarterSite extends Timber\Site {
 					!isset($entries['attachment_nonce']) ||
 					!wp_verify_nonce($entries['attachment_nonce'], 'attachment')
 				) {
-					return new Error('could not verify nonce');
+					throw new RuntimeException('could not verify nonce');
 				}
 
-				require_once( ABSPATH . 'wp-admin/includes/image.php' );
-				require_once( ABSPATH . 'wp-admin/includes/file.php' );
-				require_once( ABSPATH . 'wp-admin/includes/media.php' );
+				$attachment = $entries['attachment'];
+				$tmp_name = $attachment['tmp_name'];
+				$upload_path = ABSPATH . 'uploads';
 
-				return media_handle_upload('attachment', $entries['comment_post_ID']);
+				if ($attachment['size'] > self::MAX_FILE_SIZE) {
+					throw new RuntimeException('Max file size exceeded.');
+				}
+
+				if (!file_exists($upload_path)) {
+					mkdir($upload_path);
+				}
+
+				if (!move_uploaded_file(
+					$tmp_name,
+					sprintf('%s/%s.%s',
+						$upload_path,
+						sha1_file($tmp_name),
+						basename($attachment['name'])
+					)
+				)) {
+					throw new RuntimeException('Failed to move uploaded file.');
+				}
 			})
 			->apply('submit', function($entries) {
 				return wp_handle_comment_submission(wp_unslash($entries));
