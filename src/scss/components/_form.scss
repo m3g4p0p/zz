@@ -1,0 +1,16 @@
+.form {
+  &__group {
+    display: flex;
+    flex-direction: column;
+
+    > label {
+      order: -1;
+    }
+
+    :required + label::after {
+      content: '*';
+      display: inline-block;
+      margin-left: .5em;
+    }
+  }
+}

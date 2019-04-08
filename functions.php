@@ -52,12 +52,52 @@ Timber::$dirname = array( 'templates', 'views' );
  */
 Timber::$autoescape = false;
 
+class FormData {
+	private $entries;
+
+	public function __construct() {
+		$this->entries = array_merge([], $_POST, $this->getFilteredFiles());
+	}
+
+	public function getEntries() {
+		return $this->entries;
+	}
+
+	public function apply($key, $callable) {
+		if ((
+			isset($this->entries['error'])
+			&& $this->entries['error']
+		) || !(
+			isset($this->entries[$key])
+			&& $this->entries[$key]
+		)) {
+			return $this;
+		}
+
+		$error = $callable($this->entries);
+
+		if (is_wp_error($error) || $error instanceof Error) {
+			$this->entries['error'] = $error;
+		}
+
+		return $this;
+	}
+
+	private function getFilteredFiles() {
+		return array_filter($_FILES, function($file) {
+			$tmp_name = $file['tmp_name'];
+			return file_exists($tmp_name) && is_uploaded_file($tmp_name);
+		});
+	}
+}
 
 /**
  * We're going to configure our theme inside of a subclass of Timber\Site
  * You can move this to its own file and include here via php's include("MySite.php")
  */
 class StarterSite extends Timber\Site {
+
+	const MAX_FILE_SIZE = 1048576;
 	private $scripts = [];
 
 	/** Add timber support. */
@@ -86,14 +126,7 @@ class StarterSite extends Timber\Site {
 		$context['menu'] = new Timber\Menu();
 		$context['site'] = $this;
 		$context['site_name'] = $this->name;
-		$context['form_data'] = $_POST;
-
-		if (!empty($_POST)) {
-			$context['form_data']['error'] = is_wp_error(
-				wp_handle_comment_submission(wp_unslash($_POST))
-			);
-		}
-
+		$context['form_data'] = $this->handle_form_data();
 
 		list(
 			$context['site_name'],
@@ -185,7 +218,7 @@ class StarterSite extends Timber\Site {
 		$twig->addFilter( new Twig_SimpleFilter( 'myfoo', array( $this, 'myfoo' ) ) );
 		$twig->addFunction(new Timber\Twig_Function('enqueue_script', [$this, 'enqueue_script']));
 		$twig->addFunction(new Timber\Twig_Function('get_scripts', [$this, 'get_scripts']));
-		$this->add_wp_functions($twig, ['get_category_link', 'current_user_can']);
+		$this->add_wp_functions($twig, ['get_category_link', 'current_user_can', 'wp_nonce_field']);
 		return $twig;
 	}
 
@@ -193,6 +226,30 @@ class StarterSite extends Timber\Site {
 		foreach ($functions as $function) {
 			$twig->addFunction(new Timber\Twig_Function($function, $function));
 		}
+	}
+
+	private function handle_form_data() {
+		$form_data = new FormData();
+		var_dump($form_data->getEntries());
+		return $form_data
+			->apply('attachment', function($entries) {
+				if (
+					!isset($entries['attachment_nonce']) ||
+					!wp_verify_nonce($entries['attachment_nonce'], 'attachment')
+				) {
+					return new Error('could not verify nonce');
+				}
+
+				require_once( ABSPATH . 'wp-admin/includes/image.php' );
+				require_once( ABSPATH . 'wp-admin/includes/file.php' );
+				require_once( ABSPATH . 'wp-admin/includes/media.php' );
+
+				return media_handle_upload('attachment', $entries['comment_post_ID']);
+			})
+			->apply('submit', function($entries) {
+				return wp_handle_comment_submission(wp_unslash($entries));
+			})
+			->getEntries();
 	}
 }
 

@@ -4,11 +4,13 @@
   {{parent()}}
 
   {% if post.comment_status == 'open' %}
-    {% if form_data.error %}
-      <p>Das hat nicht funktioniert.</p>
-    {% elseif form_data.submit %}
+    {% if form_data.submit and not form_data.error %}
       <p>Danke!</p>
     {% else %}
+      {% if form_data.error %}
+        <p>Das hat nicht funktioniert.</p>
+      {% endif %}
+
       {% include "contact-form.twig" %}
     {% endif %}
   {% endif %}

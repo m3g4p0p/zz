@@ -1,34 +1,40 @@
-<form class="form" method="post">
+<form class="form" method="post" enctype="multipart/form-data">
   {% if  user %}
     <input type="hidden" name="email" value="{{ user.email }}">
     <input type="hidden" name="author" value="{{ user.name }}">
   {% else %}
-    <div class="form-group">
-      <label for="email" class="field-label">Email</label>
+    <div class="form-group form__group">
       <input required name="email" type="email" id="email" class="field">
+      <label for="email" class="field-label">Email</label>
     </div>
-    <div class="form-group">
-      <label for="author" class="field-label">Name</label>
+    <div class="form-group form__group">
       <input required name="author" type="text" id="author" class="field">
+      <label for="author" class="field-label">Name</label>
     </div>
   {% endif %}
 
-  <div class="form-group">
-    <label for="reply-title" class="field-label">Betreff</label>
+  <div class="form-group form__group">
     <input required name="reply-title" type="text" id="reply-title" class="field">
+    <label for="reply-title" class="field-label">Betreff</label>
   </div>
 
-  <div class="form-group">
-    <label for="comment" class="field-label">Nachricht</label>
+  <div class="form-group form__group">
     <textarea required rows="10" name="comment" id="comment" class="field"></textarea>
+    <label for="comment" class="field-label">Nachricht</label>
+  </div>
+
+  <div class="form-group form__group">
+    <input name="attachment" type="file" id="attachment" class="field"></input>
+    <label for="attachment" class="field-label">Anhang</label>
   </div>
 
   <input name="comment_post_ID" value="{{ post.id }}" type="hidden">
   <input name="comment_parent"  value="{{ comment.ID|default('0') }}" type="hidden">
+  {{wp_nonce_field('attachment', 'attachment_nonce')}}
 
   <div class="form-group text-right">
     <button value="submit" type="submit" name="submit" class="btn btn--primary">Send</button>
     <button type="reset" class="btn btn--default">Cancel</button>
-    <div class="field-help">Alle Felder sind erforderlich.</div>
+    <div class="field-help">Alle mit * markierten Felder sind erforderlich.</div>
   </div>
 </form>
