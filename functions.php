@@ -230,7 +230,7 @@ class StarterSite extends Timber\Site {
 
 	private function handle_form_data() {
 		$form_data = new FormData();
-		var_dump($form_data->getEntries());
+
 		return $form_data
 			->apply('attachment', function($entries) {
 				if (
