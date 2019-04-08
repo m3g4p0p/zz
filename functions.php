@@ -86,6 +86,11 @@ class StarterSite extends Timber\Site {
 		$context['menu'] = new Timber\Menu();
 		$context['site'] = $this;
 		$context['site_name'] = $this->name;
+		$context['form_data'] = $_POST;
+
+		if (!empty($_POST)) {
+			$context['form_data']['error'] = wp_handle_comment_submission(wp_unslash($_POST));
+		}
 
 		list(
 			$context['site_name'],

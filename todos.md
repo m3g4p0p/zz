@@ -8,3 +8,4 @@
 - [x] Scroll-to-top
 - [x] Infinite scrolling
 - [ ] Search field
+- [ ] Next / prev links
