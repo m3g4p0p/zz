@@ -8,6 +8,7 @@
  * @since   Timber 0.1
  */
 require_once( __DIR__ . '/vendor/autoload.php' );
+require_once( __DIR__ . '/lib/form-data.php');
 
 if ( ! class_exists( 'Timber' ) ) {
 	add_action( 'admin_notices', function() {
@@ -51,56 +52,6 @@ Timber::$dirname = array( 'templates', 'views' );
  * No prob! Just set this value to true
  */
 Timber::$autoescape = false;
-
-class FormData {
-	private $entries;
-
-	public function __construct() {
-		$this->entries = array_merge([], $_POST, $this->getFilteredFiles());
-	}
-
-	public function getEntries() {
-		return $this->entries;
-	}
-
-	public function hasError() {
-		return isset($this->entries['error']) && (bool)$this->entries['error'];
-	}
-
-	public function apply($key, $callable) {
-		if ($this->hasError() || !(
-			isset($this->entries[$key])
-			&& $this->entries[$key]
-		)) {
-			return $this;
-		}
-
-		try {
-			$error = $callable($this->entries);
-
-			if (is_wp_error($error)) {
-				throw new Exception($error->get_error_message());
-			}
-		} catch (Exception $error) {
-			$this->entries['error'] = $error;
-		}
-
-		return $this;
-	}
-
-	public function catch($callable) {
-		if ($this->hasError()) {
-			$callable($this->entries['error']);
-		}
-	}
-
-	private function getFilteredFiles() {
-		return array_filter($_FILES, function($file) {
-			$tmp_name = $file['tmp_name'];
-			return file_exists($tmp_name) && is_uploaded_file($tmp_name);
-		});
-	}
-}
 
 /**
  * We're going to configure our theme inside of a subclass of Timber\Site
@@ -243,7 +194,7 @@ class StarterSite extends Timber\Site {
 		$form_data = new FormData();
 
 		return $form_data
-			->apply('attachment', function($entries) {
+			->apply('attachment', function(&$entries) {
 				if (
 					!isset($entries['attachment_nonce']) ||
 					!wp_verify_nonce($entries['attachment_nonce'], 'attachment')
@@ -253,7 +204,9 @@ class StarterSite extends Timber\Site {
 
 				$attachment = $entries['attachment'];
 				$tmp_name = $attachment['tmp_name'];
+				$filetype = wp_check_filetype(basename($attachment['name']));
 				$upload_path = ABSPATH . 'uploads';
+				$hashed_filename = sprintf('%s.%s', sha1_file($tmp_name), $filetype['ext']);
 
 				if ($attachment['size'] > self::MAX_FILE_SIZE) {
 					throw new RuntimeException('Max file size exceeded.');
@@ -265,14 +218,16 @@ class StarterSite extends Timber\Site {
 
 				if (!move_uploaded_file(
 					$tmp_name,
-					sprintf('%s/%s.%s',
+					sprintf(
+						'%s/%s',
 						$upload_path,
-						sha1_file($tmp_name),
-						basename($attachment['name'])
+						$hashed_filename
 					)
 				)) {
 					throw new RuntimeException('Failed to move uploaded file.');
 				}
+
+				$entries['url'] = "/uploads/$hashed_filename";
 			})
 			->apply('submit', function($entries) {
 				return wp_handle_comment_submission(wp_unslash($entries));
