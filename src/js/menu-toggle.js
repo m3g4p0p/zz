@@ -1,11 +1,11 @@
-export class MenuToggle {
-  get isStacked () {
-    return window.getComputedStyle(this.menu).getPropertyValue('flex-direction') === 'column'
-  }
+import { MobileIndicator } from './mobile-indicator'
 
+export class MenuToggle {
   constructor () {
     this.toggle = document.getElementById('menu-toggle')
+    this.navigation = document.getElementById('navigation')
     this.menu = document.getElementById('menu')
+    this.mobileIndicator = new MobileIndicator()
   }
 
   init () {
@@ -13,7 +13,7 @@ export class MenuToggle {
   }
 
   handleEvent (event) {
-    if (this.isStacked) {
+    if (this.mobileIndicator.isVisible) {
       event.preventDefault()
       this.menu.classList.toggle('menu--collapsed')
     }

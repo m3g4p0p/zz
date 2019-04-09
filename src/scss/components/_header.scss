@@ -1,0 +1,20 @@
+.header {
+  overflow: hidden;
+
+  &__navigation {
+    display: flex;
+    flex-direction: column-reverse;
+
+    @include breakpoint($screen-xs-max, max) {
+      transition: height .2s ease;
+
+      &--collapsed {
+        height: 0;
+      }
+
+      &--expanded {
+        height: auto;
+      }
+    }
+  }
+}
