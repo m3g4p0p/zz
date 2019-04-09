@@ -1,0 +1,13 @@
+.navigation {
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: hidden;
+
+  @include breakpoint($screen-xs-max, max) {
+    transition: height .2s ease;
+
+    &--collapsed {
+      height: 0;
+    }
+  }
+}

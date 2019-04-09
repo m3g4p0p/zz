@@ -1,5 +1,5 @@
 import { ScrollToTop } from './scroll-to-top'
-import { MenuToggle } from './menu-toggle'
+import { NavigationToggle } from './navigation-toggle'
 
 new ScrollToTop().init()
-new MenuToggle().init()
+new NavigationToggle().init()

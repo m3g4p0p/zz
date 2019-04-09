@@ -7,12 +7,6 @@
   font-size: 1.2rem;
   font-variant-caps: small-caps;
 
-  @include breakpoint($screen-xs-max, max) {
-    &--collapsed {
-      display: none;
-    }
-  }
-
   @include breakpoint($screen-sm-min) {
     flex-direction: row;
     justify-content: space-between;
