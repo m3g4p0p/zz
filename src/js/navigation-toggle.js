@@ -21,6 +21,14 @@ export class NavigationToggle {
   }
 
   handleEvent (event) {
+    if (
+      event.type === 'transitionend' &&
+      event.target === event.currentTarget &&
+      event.target === this.navigation
+    ) {
+      return this.release()
+    }
+
     if (!this.isAnimating && this.mobileIndicator.isVisible) {
       event.preventDefault()
       this.toggleMenu()
@@ -29,11 +37,7 @@ export class NavigationToggle {
 
   toggleMenu () {
     this.isAnimating = true
-
-    this.navigation.addEventListener('transitionend', () => {
-      this.release()
-      this.isAnimating = false
-    }, { once: true })
+    this.navigation.addEventListener('transitionend', this)
 
     if (this.isCollapsed) {
       this.collapse().then(() => this.expand())
@@ -57,6 +61,8 @@ export class NavigationToggle {
   }
 
   release () {
+    this.isAnimating = false
     this.navigation.style.height = ''
+    this.navigation.removeEventListener('transitionend', this)
   }
 }
