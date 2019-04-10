@@ -3,7 +3,7 @@
 - [x] Banner
 - [ ] Contact form
   - [ ] Captcha
-  - [ ] Client Validation
+  - [x] Client Validation
   - [ ] Error messages
 - [ ] Mobile menu
 - [x] Display categories
@@ -12,3 +12,4 @@
 - [x] Infinite scrolling
 - [ ] Search field
 - [ ] Next / prev links
+- [ ] Improve FE build
