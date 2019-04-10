@@ -22,17 +22,33 @@ export class NavigationToggle {
   }
 
   handleEvent (event) {
-    if (
-      event.type === 'transitionend' &&
-      event.target === event.currentTarget &&
-      event.target === this.navigation
-    ) {
-      return this.endAnimation()
+    switch (event.type) {
+      case 'click':
+        this.handleClick(event)
+        break
+
+      case 'transitionend':
+        this.handleTransitionend(event)
+        break
+
+      default:
+        // Do nothing
+    }
+  }
+
+  handleClick (event) {
+    if (this.mobileIndicator.isVisible) {
+      event.preventDefault()
     }
 
-    if (!this.isAnimating && this.mobileIndicator.isVisible) {
-      event.preventDefault()
+    if (!this.isAnimating) {
       this.toggleMenu()
+    }
+  }
+
+  handleTransitionend () {
+    if (event.target === this.navigation) {
+      return this.endAnimation()
     }
   }
 
