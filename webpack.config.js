@@ -9,7 +9,8 @@ const path = {
 module.exports = ({ production = false } = {}) => ({
   entry: {
     'main-bundle': join(path.src, 'main.js'),
-    'infinite-scrolling': join(path.src, 'infinite-scrolling.js')
+    'infinite-scrolling': join(path.src, 'infinite-scrolling.js'),
+    'form-handler': join(path.src, 'form-handler.js')
   },
   plugins: [
     new CleanWebpackPlugin()

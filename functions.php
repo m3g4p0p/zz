@@ -89,6 +89,7 @@ class StarterSite extends Timber\Site {
 		$context['site'] = $this;
 		$context['site_name'] = $this->name;
 		$context['form_data'] = $this->handle_form_data();
+		$context['MAX_FILE_SIZE'] = static::MAX_FILE_SIZE;
 
 		list(
 			$context['site_name'],
