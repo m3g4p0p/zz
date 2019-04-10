@@ -2,6 +2,7 @@ import { MobileIndicator } from './mobile-indicator'
 import { chainFrame } from './dom-util'
 
 const CLASS_COLLAPSED = 'navigation--collapsed'
+const CLASS_ANIMATING = 'navigation--animating'
 
 export class NavigationToggle {
   get isCollapsed () {
@@ -26,7 +27,7 @@ export class NavigationToggle {
       event.target === event.currentTarget &&
       event.target === this.navigation
     ) {
-      return this.release()
+      return this.endAnimation()
     }
 
     if (!this.isAnimating && this.mobileIndicator.isVisible) {
@@ -36,14 +37,10 @@ export class NavigationToggle {
   }
 
   toggleMenu () {
-    this.isAnimating = true
-    this.navigation.addEventListener('transitionend', this)
-
-    if (this.isCollapsed) {
-      this.collapse().then(() => this.expand())
-    } else {
-      this.expand().then(() => this.collapse())
-    }
+    this.startAnimation().then(() => this.isCollapsed
+      ? this.collapse().then(() => this.expand())
+      : this.expand().then(() => this.collapse())
+    )
   }
 
   expand () {
@@ -60,9 +57,20 @@ export class NavigationToggle {
     })
   }
 
-  release () {
-    this.isAnimating = false
-    this.navigation.style.height = ''
-    this.navigation.removeEventListener('transitionend', this)
+  startAnimation () {
+    return chainFrame(() => {
+      this.isAnimating = true
+      this.navigation.classList.add(CLASS_ANIMATING)
+      this.navigation.addEventListener('transitionend', this)
+    })
+  }
+
+  endAnimation () {
+    return chainFrame(() => {
+      this.isAnimating = false
+      this.navigation.style.height = ''
+      this.navigation.classList.remove(CLASS_ANIMATING)
+      this.navigation.removeEventListener('transitionend', this)
+    })
   }
 }

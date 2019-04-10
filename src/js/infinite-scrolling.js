@@ -117,7 +117,6 @@ export class InfiniteScrolling {
       .then(tap(({ _paging }) => {
         this.totalPages = _paging.totalPages
       }))
-      .then(posts => new Promise(resolve => setTimeout(resolve, 1000, posts)))
       .then(posts => posts.forEach(post => this.appendPost(post)))
       .finally(() => this.toggleLoading(false))
   }
