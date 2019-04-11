@@ -2,13 +2,8 @@
   "name": "zeitungzeitung",
   "version": "1.0.0",
   "scripts": {
-    "css": "node-sass ./src/scss/main.scss ./static/css/style.css",
-    "css:dev": "yarn css && yarn css --watch",
-    "js": "webpack",
-    "js:dev": "yarn js --watch",
-    "js:prod": "yarn js --env.production",
-    "dev": "concurrently 'yarn css:dev' 'yarn js:dev'",
-    "build": "yarn css && yarn js:prod"
+    "dev": "webpack --watch",
+    "build": "webpack --env.production"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -17,7 +12,11 @@
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^2.0.1",
     "concurrently": "^4.1.0",
+    "css-loader": "^2.1.1",
+    "filter-entry-output-plugin": "^1.0.0",
+    "mini-css-extract-plugin": "^0.6.0",
     "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
     "standard": "^12.0.1",
     "standard-loader": "^6.0.1",
     "webpack": "^4.29.6",

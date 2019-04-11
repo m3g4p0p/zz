@@ -1,5 +1,4 @@
 node_modules/
 vendor/
-static/js/
-static/css/
+static/assets/
 yarn-error.log
