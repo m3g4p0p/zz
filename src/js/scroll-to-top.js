@@ -2,7 +2,7 @@ import { isIntersecting } from './util'
 
 export class ScrollToTop {
   constructor () {
-    this.link = document.getElementById('scroll-to-top')
+    this.link = document.querySelector('.js-scroll-to-top')
   }
 
   init () {

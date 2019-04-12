@@ -8,9 +8,9 @@ import { tap, removeElement, getValue, isIntersecting, sanitize } from './util'
  */
 export class InfiniteScrolling {
   constructor () {
-    this.template = document.getElementById('tease-template')
-    this.container = document.getElementById('tease-container')
-    this.loadicator = document.getElementById('tease-loadicator')
+    this.template = document.querySelector('.js-tease-template')
+    this.container = document.querySelector('.js-tease-container')
+    this.loadicator = document.querySelector('.js-tease-loadicator')
     this.pageSize = this.container.children.length
     this.currentPage = 1
     this.totalPages = Infinity

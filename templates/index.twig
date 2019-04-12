@@ -1,7 +1,7 @@
 {% extends "base.twig" %}
 
 {% block content %}
-	<ul id="tease-container" class="list-stacked list-stacked--huge list-stacked--divided">
+	<ul class="list-stacked list-stacked--huge list-stacked--divided js-tease-container">
 		{% for post in posts %}
 			<li>
 				{% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}

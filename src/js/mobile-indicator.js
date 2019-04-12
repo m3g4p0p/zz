@@ -6,6 +6,6 @@ export class MobileIndicator {
   }
 
   constructor () {
-    this.inicator = document.getElementById('mobile-indicator')
+    this.inicator = document.querySelector('.js-mobile-indicator')
   }
 }

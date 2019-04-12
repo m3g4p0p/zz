@@ -10,9 +10,9 @@ export class NavigationToggle {
   }
 
   constructor () {
-    this.toggle = document.getElementById('menu-toggle')
-    this.navigation = document.getElementById('navigation')
-    this.menu = document.getElementById('menu')
+    this.toggle = document.querySelector('.js-menu-toggle')
+    this.navigation = document.querySelector('.js-navigation')
+    this.menu = document.querySelector('.js-menu')
     this.mobileIndicator = new MobileIndicator()
     this.isAnimating = false
   }

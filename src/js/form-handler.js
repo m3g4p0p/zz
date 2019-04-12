@@ -1,6 +1,6 @@
 export class FormHandler {
   constructor () {
-    this.form = document.getElementById('contact-form')
+    this.form = document.querySelector('.js-contact-form')
     this.fileInputs = this.form.querySelectorAll('[type="file"]')
   }
 
