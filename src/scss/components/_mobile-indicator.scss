@@ -1,0 +1,7 @@
+.mobile-indicator {
+  display: block;
+
+  @include breakpoint($screen-sm-min) {
+    display: none;
+  }
+}

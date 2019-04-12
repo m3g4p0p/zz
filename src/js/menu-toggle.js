@@ -1,17 +1,17 @@
 import { MobileIndicator } from './mobile-indicator'
 import { chainFrame } from './dom-util'
 
-const CLASS_COLLAPSED = 'navigation--collapsed'
-const CLASS_ANIMATING = 'navigation--animating'
+const CLASS_COLLAPSED = 'menu--collapsed'
+const CLASS_ANIMATING = 'menu--animating'
 
-export class NavigationToggle {
+export class MenuToggle {
   get isCollapsed () {
-    return this.navigation.classList.contains('navigation--collapsed')
+    return this.menuWrapper.classList.contains('menu--collapsed')
   }
 
   constructor () {
     this.toggle = document.querySelector('.js-menu-toggle')
-    this.navigation = document.querySelector('.js-navigation')
+    this.menuWrapper = document.querySelector('.js-menu-wrapper')
     this.menu = document.querySelector('.js-menu')
     this.mobileIndicator = new MobileIndicator()
     this.isAnimating = false
@@ -47,7 +47,7 @@ export class NavigationToggle {
   }
 
   handleTransitionend () {
-    if (event.target === this.navigation) {
+    if (event.target === this.menuWrapper) {
       return this.endAnimation()
     }
   }
@@ -61,32 +61,32 @@ export class NavigationToggle {
 
   expand () {
     return chainFrame(() => {
-      this.navigation.style.height = this.menu.offsetHeight + 'px'
-      this.navigation.classList.remove(CLASS_COLLAPSED)
+      this.menuWrapper.style.height = this.menu.offsetHeight + 'px'
+      this.menuWrapper.classList.remove(CLASS_COLLAPSED)
     })
   }
 
   collapse () {
     return chainFrame(() => {
-      this.navigation.style.height = 0
-      this.navigation.classList.add(CLASS_COLLAPSED)
+      this.menuWrapper.style.height = 0
+      this.menuWrapper.classList.add(CLASS_COLLAPSED)
     })
   }
 
   startAnimation () {
     return chainFrame(() => {
       this.isAnimating = true
-      this.navigation.classList.add(CLASS_ANIMATING)
-      this.navigation.addEventListener('transitionend', this)
+      this.menuWrapper.classList.add(CLASS_ANIMATING)
+      this.menuWrapper.addEventListener('transitionend', this)
     })
   }
 
   endAnimation () {
     return chainFrame(() => {
       this.isAnimating = false
-      this.navigation.style.height = ''
-      this.navigation.classList.remove(CLASS_ANIMATING)
-      this.navigation.removeEventListener('transitionend', this)
+      this.menuWrapper.style.height = ''
+      this.menuWrapper.classList.remove(CLASS_ANIMATING)
+      this.menuWrapper.removeEventListener('transitionend', this)
     })
   }
 }

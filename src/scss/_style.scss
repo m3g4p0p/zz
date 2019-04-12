@@ -31,12 +31,3 @@ h3 {
 h1 + * {
   margin-top: $spacing-unit-large;
 }
-
-#mobile-indicator {
-  display: block;
-
-
-  @include breakpoint($screen-sm-min) {
-    display: none;
-  }
-}
