@@ -22,26 +22,6 @@ if ( ! class_exists( 'Timber' ) ) {
 	return;
 }
 
-// add_action('wp_enqueue_scripts', function() {
-// 	wp_enqueue_style('style', get_template_directory_uri() . '/static/assets/css/style.css');
-// 	wp_enqueue_script('bundle', get_template_directory_uri() . '/static/assets/js/bundle.js', null, null, true);
-// });
-
-// add_action('init', function() {
-// 	register_post_type('zz-article', [
-// 		'labels' => [
-// 			'name' => __('Articles'),
-// 			'singular_name' => __('Article'),
-// 		],
-// 		'public' => true,
-// 		'has_archive' => true,
-// 		'rewrite' => [
-// 			'slug' => 'article'
-// 		],
-// 		'menu_position' => 5,
-// 	]);
-// });
-
 /**
  * Sets the directories (inside your theme) to find .twig files
  */

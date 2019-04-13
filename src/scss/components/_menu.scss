@@ -14,6 +14,21 @@
     font-variant-caps: small-caps;
   }
 
+  &__link {
+    @include font-newspaper;
+
+    display: block;
+    padding: $spacing-unit-default 0;
+    color: $brand-color-dark;
+    font-weight: bold;
+    transition: color .1s ease;
+
+    &:hover {
+      color: $brand-color-light;
+      text-decoration: none;
+    }
+  }
+
   @include breakpoint($screen-xs-max, max) {
     transition: height 1s ease;
 
@@ -39,24 +54,8 @@
       justify-content: space-between;
     }
 
-    &__home-item {
+    @include wp-home-item {
       display: none;
     }
   }
-
-  &__link {
-    @include font-newspaper;
-
-    display: block;
-    padding: $spacing-unit-default 0;
-    color: $brand-color-dark;
-    font-weight: bold;
-    transition: color .1s ease;
-
-    &:hover {
-      color: $brand-color-light;
-      text-decoration: none;
-    }
-  }
 }
-

@@ -5,6 +5,8 @@
   - [ ] Captcha
   - [x] Client Validation
   - [ ] Error messages
+  - [ ] Legal consent
+  - [ ] Confirm reset
 - [ ] Mobile menu
 - [x] Display categories
 - [x] Footer

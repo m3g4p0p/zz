@@ -1,3 +1,5 @@
+@import './mixins/wordpress';
+
 @mixin breakpoint ($width, $compare: 'min') {
   @media screen and (#{$compare}-width: $width) {
     @content;
