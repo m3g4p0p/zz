@@ -183,11 +183,33 @@ class StarterSite extends Timber\Site {
 					throw new RuntimeException('could not verify nonce');
 				}
 
-				require_once(ABSPATH . 'wp-admin/includes/image.php');
-				require_once(ABSPATH . 'wp-admin/includes/file.php');
-				require_once(ABSPATH . 'wp-admin/includes/media.php');
+				$attachment = $entries['attachment'];
+				$tmp_name = $attachment['tmp_name'];
+				$basename = basename($attachment['name']);
+				$upload_path = ABSPATH . 'uploads';
+				$file_name = sprintf('%s/%s', $upload_path, $basename);
 
-				return media_handle_upload('attachment', $entries['post_id']);
+				if ($attachment['size'] > self::MAX_FILE_SIZE) {
+					throw new RuntimeException('Max file size exceeded.');
+				}
+
+				if (!file_exists($upload_path)) {
+					mkdir($upload_path);
+				}
+
+				if (!move_uploaded_file($tmp_name, $file_name)) {
+					throw new RuntimeException('Failed to move uploaded file.');
+				}
+
+				$recipients = array_map(function ($user) {
+					return $user->data->user_email;
+				}, get_users(['role_in' => ['administrator', 'editor']]));
+
+				foreach ($recipients as $to) {
+					wp_mail($to, $entries['reply-title'], $entries['comment'], null, $file_name);
+				}
+
+				unlink($file_name);
 			})
 			->apply('submit', function($entries) {
 				return wp_handle_comment_submission(wp_unslash($entries));
