@@ -1,14 +1,10 @@
 {% if menu %}
-	<div class="menu menu--collapsed js-menu-wrapper">
+	<div class="menu menu--collapsed {% if is_child %}menu--child{% endif %} js-menu-wrapper">
 		<ul class="menu__list js-menu">
-			<li class="menu__home-item">
-				<a href="{{ site.url }}" rel="home" class="menu__link">Start</a>
-			</li>
-
 			{% for item in menu %}
 				<li class="{{ item.classes | join(' ') }}">
 					<a target="{{ item.target }}" href="{{ item.link }}" class="menu__link">{{ item.title }}</a>
-					{% include "menu.twig" with {'menu': item.children} %}
+					{% include "menu.twig" with {'menu': item.children, 'is_child': true} %}
 				</li>
 			{% endfor %}
 		</ul>

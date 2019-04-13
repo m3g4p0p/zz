@@ -22,26 +22,6 @@ if ( ! class_exists( 'Timber' ) ) {
 	return;
 }
 
-// add_action('wp_enqueue_scripts', function() {
-// 	wp_enqueue_style('style', get_template_directory_uri() . '/static/assets/css/style.css');
-// 	wp_enqueue_script('bundle', get_template_directory_uri() . '/static/assets/js/bundle.js', null, null, true);
-// });
-
-// add_action('init', function() {
-// 	register_post_type('zz-article', [
-// 		'labels' => [
-// 			'name' => __('Articles'),
-// 			'singular_name' => __('Article'),
-// 		],
-// 		'public' => true,
-// 		'has_archive' => true,
-// 		'rewrite' => [
-// 			'slug' => 'article'
-// 		],
-// 		'menu_position' => 5,
-// 	]);
-// });
-
 /**
  * Sets the directories (inside your theme) to find .twig files
  */
@@ -203,32 +183,11 @@ class StarterSite extends Timber\Site {
 					throw new RuntimeException('could not verify nonce');
 				}
 
-				$attachment = $entries['attachment'];
-				$tmp_name = $attachment['tmp_name'];
-				$filetype = wp_check_filetype(basename($attachment['name']));
-				$upload_path = ABSPATH . 'uploads';
-				$hashed_filename = sprintf('%s.%s', sha1_file($tmp_name), $filetype['ext']);
+				require_once(ABSPATH . 'wp-admin/includes/image.php');
+				require_once(ABSPATH . 'wp-admin/includes/file.php');
+				require_once(ABSPATH . 'wp-admin/includes/media.php');
 
-				if ($attachment['size'] > self::MAX_FILE_SIZE) {
-					throw new RuntimeException('Max file size exceeded.');
-				}
-
-				if (!file_exists($upload_path)) {
-					mkdir($upload_path);
-				}
-
-				if (!move_uploaded_file(
-					$tmp_name,
-					sprintf(
-						'%s/%s',
-						$upload_path,
-						$hashed_filename
-					)
-				)) {
-					throw new RuntimeException('Failed to move uploaded file.');
-				}
-
-				$entries['url'] = "/uploads/$hashed_filename";
+				return media_handle_upload('attachment', $entries['post_id']);
 			})
 			->apply('submit', function($entries) {
 				return wp_handle_comment_submission(wp_unslash($entries));
