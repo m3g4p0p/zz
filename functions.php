@@ -22,6 +22,13 @@ if ( ! class_exists( 'Timber' ) ) {
 	return;
 }
 
+add_action('user_register', function ($user_id) {
+	wp_update_user([
+		'ID' => $user_id,
+		'admin_color' => 'ectoplasm'
+	]);
+});
+
 /**
  * Sets the directories (inside your theme) to find .twig files
  */

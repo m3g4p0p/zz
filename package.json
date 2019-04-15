@@ -2,8 +2,8 @@
   "name": "zeitungzeitung",
   "version": "1.0.0",
   "scripts": {
-    "dev": "webpack --watch",
-    "build": "webpack --env.production"
+    "build:dev": "webpack --watch",
+    "build:prod": "webpack --env.production"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
